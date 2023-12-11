@@ -41,6 +41,7 @@ export interface QueryStoreState {
     readonly routingProfile: RoutingProfile
     readonly customModelEnabled: boolean
     readonly customModelStr: string
+    readonly headings: number[]
 }
 
 export interface QueryPoint {
@@ -113,10 +114,12 @@ export default class QueryStore extends Store<QueryStoreState> {
             },
             customModelEnabled: customModelEnabledInitially,
             customModelStr: initialCustomModelStr,
+            headings: []
         }
     }
 
     reduce(state: QueryStoreState, action: Action): QueryStoreState {
+        debugger
         if (action instanceof InvalidatePoint) {
             const points = QueryStore.replacePoint(state.queryPoints, {
                 ...action.point,
@@ -302,9 +305,10 @@ export default class QueryStore extends Store<QueryStoreState> {
             },
         }
     }
-
+    //api start from here
     private routeIfReady(state: QueryStoreState, zoom: boolean): QueryStoreState {
         if (QueryStore.isReadyToRoute(state)) {
+            // debugger
             let requests
             const maxDistance = getMaxDistance(state.queryPoints)
             if (state.customModelEnabled) {
@@ -349,7 +353,7 @@ export default class QueryStore extends Store<QueryStoreState> {
                 )
                     requests.push(QueryStore.buildRouteRequest(state))
             }
-
+            debugger
             return {
                 ...state,
                 currentRequest: { subRequests: this.send(requests, zoom) },
@@ -359,13 +363,13 @@ export default class QueryStore extends Store<QueryStoreState> {
     }
 
     private send(args: RoutingArgs[], zoom: boolean) {
+        debugger
         const subRequests = args.map(arg => {
             return {
                 args: arg,
                 state: RequestState.SENT,
             }
         })
-
         subRequests.forEach((subRequest, i) => this.api.routeWithDispatch(subRequest.args, i == 0 ? zoom : false))
         return subRequests
     }
@@ -437,6 +441,7 @@ export default class QueryStore extends Store<QueryStoreState> {
     }
 
     private static buildRouteRequest(state: QueryStoreState): RoutingArgs {
+        // debugger
         const coordinates = state.queryPoints.map(point => [point.coordinate.lng, point.coordinate.lat]) as [
             number,
             number
@@ -453,6 +458,7 @@ export default class QueryStore extends Store<QueryStoreState> {
             profile: state.routingProfile.name,
             maxAlternativeRoutes: state.maxAlternativeRoutes,
             customModel: customModel,
+            headings: state.headings,
         }
     }
 

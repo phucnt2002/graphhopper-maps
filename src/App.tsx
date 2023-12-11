@@ -43,6 +43,8 @@ import PlainButton from '@/PlainButton'
 import useAreasLayer from '@/layers/UseAreasLayer'
 import useExternalMVTLayer from '@/layers/UseExternalMVTLayer'
 import LocationButton from '@/map/LocationButton'
+import Dispatcher from './stores/Dispatcher'
+import { ClearRoute, SetHeadings } from './actions/Actions'
 
 export const POPUP_CONTAINER_ID = 'popup-container'
 export const SIDEBAR_CONTENT_ID = 'sidebar-content'
@@ -153,6 +155,19 @@ interface LayoutProps {
 function LargeScreenLayout({ query, route, map, error, mapOptions, encodedValues, drawAreas }: LayoutProps) {
     const [showSidebar, setShowSidebar] = useState(true)
     const [showCustomModelBox, setShowCustomModelBox] = useState(false)
+    const handleHeadingChange = (index: number, value: string) => {
+        // Kiểm tra xem giá trị có phải là số hợp lệ không
+        const parsedValue = parseFloat(value)
+        if (!isNaN(parsedValue)) {
+            // Sao chép mảng headings để không làm thay đổi trực tiếp state
+            const newHeadings = [...query.headings]
+            newHeadings[index] = parsedValue
+
+            // Cập nhật state với mảng headings mới
+            query = { ...query, headings: newHeadings }
+            console.log(query)
+        }
+    }
     return (
         <>
             {showSidebar ? (
@@ -178,6 +193,24 @@ function LargeScreenLayout({ query, route, map, error, mapOptions, encodedValues
                             />
                         )}
                         <Search points={query.queryPoints} />
+                        <input
+                            type="number"
+                            placeholder="Heading 1"
+                            onChange={e => {
+                                handleHeadingChange(0, e.target.value)
+                                // Dispatcher.dispatch(new ClearRoute())
+                                // Dispatcher.dispatch(new SetHeadings(query.headings))
+                            }}
+                        />
+                        <input
+                            type="number"
+                            placeholder="Heading 2"
+                            onChange={e => {
+                                handleHeadingChange(1, e.target.value)
+                                // Dispatcher.dispatch(new ClearRoute())
+                                // Dispatcher.dispatch(new SetHeadings(query.headings))
+                            }}
+                        />
                         <div>{!error.isDismissed && <ErrorMessage error={error} />}</div>
                         <RoutingResults
                             info={route.routingResult.info}

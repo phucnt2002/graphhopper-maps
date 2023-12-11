@@ -15,6 +15,7 @@ let errorStore: ErrorStore
 let mapOptionsStore: MapOptionsStore
 let pathDetailsStore: PathDetailsStore
 let mapFeatureStore: MapFeatureStore
+// let headingsStore: number[]
 
 interface StoresInput {
     settingsStore: SettingsStore
@@ -25,6 +26,7 @@ interface StoresInput {
     mapOptionsStore: MapOptionsStore
     pathDetailsStore: PathDetailsStore
     mapFeatureStore: MapFeatureStore
+    // headingsStore: number[]
 }
 
 export const setStores = function (stores: StoresInput) {
@@ -36,6 +38,7 @@ export const setStores = function (stores: StoresInput) {
     mapOptionsStore = stores.mapOptionsStore
     pathDetailsStore = stores.pathDetailsStore
     mapFeatureStore = stores.mapFeatureStore
+    // // headingsStore = stores.headingsStore
 }
 
 export const getSettingsStore = () => settingsStore
@@ -46,3 +49,4 @@ export const getErrorStore = () => errorStore
 export const getMapOptionsStore = () => mapOptionsStore
 export const getPathDetailsStore = () => pathDetailsStore
 export const getMapFeatureStore = () => mapFeatureStore
+// // export const getHeadingsStore = () => headingsStore

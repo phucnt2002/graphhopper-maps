@@ -3,7 +3,7 @@ import { CustomModel } from '@/stores/QueryStore'
 export const customModelExamples: { [key: string]: CustomModel } = {
     default_example: {
         distance_influence: 15,
-        priority: [{ if: 'road_environment == FERRY', multiply_by: '0.9' }],
+        priority: [{ if: 'junction == ROUNDABOUT', multiply_by: '0.9' }],
         speed: [],
         areas: {
             type: 'FeatureCollection',

@@ -113,7 +113,7 @@ export class ApiImpl implements Api {
 
     async route(args: RoutingArgs): Promise<RoutingResult> {
         const completeRequest = ApiImpl.createRequest(args)
-
+        debugger
         const response = await fetch(this.getRoutingURLWithKey('route').toString(), {
             method: 'POST',
             mode: 'cors',
@@ -156,6 +156,7 @@ export class ApiImpl implements Api {
     }
 
     routeWithDispatch(args: RoutingArgs, zoomOnSuccess: boolean) {
+        // debugger
         const routeNumber = this.routeCounter++
         this.route(args)
             .then(result => {
@@ -196,7 +197,6 @@ export class ApiImpl implements Api {
         let details = config.request?.details ? config.request.details : []
         // don't query all path details for all profiles (e.g. foot_network and get_off_bike are not enabled for motor vehicles)
         if (profileConfig?.details) details = [...details, ...profileConfig.details] // don't modify original arrays!
-
         const request: RoutingRequest = {
             points: args.points,
             profile: args.profile,
@@ -207,19 +207,33 @@ export class ApiImpl implements Api {
             snap_preventions: config.request?.snapPreventions ? config.request.snapPreventions : [],
             ...profileConfig,
             details: details,
+            headings: args.headings
         }
-
+        // debugger
         if (args.customModel) {
             request.custom_model = args.customModel
             request['ch.disable'] = true
         }
-
+        
         if (args.points.length <= 2 && args.maxAlternativeRoutes > 1 && !(request as any)['curbsides']) {
-            return {
-                ...request,
-                'alternative_route.max_paths': args.maxAlternativeRoutes,
-                algorithm: 'alternative_route',
-            }
+            if ((request.headings ?? []).length > 0) {
+                request['ch.disable'] = true
+
+                // Your logic when args.headings is defined and has a length greater than 0
+                return{
+                    ...request,
+                    'alternative_route.max_paths': args.maxAlternativeRoutes,
+                    algorithm: 'alternative_route',
+                }
+              }
+              else{
+
+                  return {
+                      ...request,
+                      'alternative_route.max_paths': args.maxAlternativeRoutes,
+                      algorithm: 'alternative_route',
+                  }
+              }
         }
         return request
     }

@@ -187,7 +187,6 @@ export default function AddressInput(props: AddressInputProps) {
                         type == QueryPointType.From ? 'from_hint' : type == QueryPointType.To ? 'to_hint' : 'via_hint'
                     )}
                 />
-
                 <PlainButton
                     style={text.length == 0 ? { display: 'none' } : {}}
                     className={styles.btnInputClear}

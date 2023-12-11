@@ -15,7 +15,7 @@ export default abstract class Store<TState> implements ActionReceiver, NotifySta
 
     receive(action: Action): void {
         const result = this.reduce(this._state, action)
-
+        // debugger
         // make a shallow compare. Maybe change this later?
         if (result !== this._state) {
             this.setState(result)

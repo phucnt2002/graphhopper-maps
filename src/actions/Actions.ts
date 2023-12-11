@@ -91,6 +91,13 @@ export class SetCustomModelEnabled implements Action {
     }
 }
 
+export class SetHeadings implements Action {
+    readonly headings: number[]
+    constructor (headings: number[]){
+        this.headings = headings
+    }
+}
+
 export class SetCustomModel implements Action {
     readonly customModelStr: string
     readonly issueRoutingRequest: boolean

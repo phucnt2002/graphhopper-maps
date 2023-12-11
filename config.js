@@ -3,14 +3,14 @@
  */
 const config = {
     // the url of the GraphHopper routing backend, either use graphhopper.com or point it to your own GH instance
-    routingApi: 'https://graphhopper.com/api/1/',
+    routingApi: 'http://localhost:8989/',
     // the url of the geocoding backend, either use graphhopper.com or point it to another geocoding service. use an empty string to disable the address search
-    geocodingApi: 'https://graphhopper.com/api/1/',
+    geocodingApi: 'http://localhost:8989/',
     // the tile layer used by default, see MapOptionsStore.ts for all options
     defaultTiles: 'OpenStreetMap',
     // various api keys used for the GH backend and the different tile providers
     keys: {
-        graphhopper: 'bfb9d728-3732-4542-9e92-f638ac1c9f3a',
+        graphhopper: '',
         maptiler: 'missing_api_key',
         omniscale: 'missing_api_key',
         thunderforest: 'missing_api_key',
@@ -28,8 +28,6 @@ const config = {
             'max_speed',
             'average_speed',
             'toll',
-            'track_type',
-            'country',
         ],
         snapPreventions: ['ferry'],
     },

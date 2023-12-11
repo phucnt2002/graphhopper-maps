@@ -9,6 +9,7 @@ export interface RoutingArgs {
     readonly profile: string
     readonly maxAlternativeRoutes: number
     readonly customModel: CustomModel | null
+    readonly headings?: number[]
 }
 
 export interface RoutingRequest {
@@ -25,6 +26,7 @@ export interface RoutingRequest {
     snap_preventions?: string[]
     details?: string[]
     custom_model?: CustomModel
+    headings?: number[]
 }
 
 export interface ErrorResponse {

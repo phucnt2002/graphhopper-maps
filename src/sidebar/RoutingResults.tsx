@@ -412,10 +412,10 @@ function downloadGPX(path: Path, showDistanceInMiles: boolean) {
     const wpt = false
     const trk = true
 
-    if (wpt)
-        xmlString += path.snapped_waypoints.coordinates.reduce((prevString: string, coord: Position) => {
-            return prevString + `<wpt lat="${coord[1]}" lon="${coord[0]}"></wpt>\n`
-        }, '')
+    if (wpt) debugger
+    xmlString += path.snapped_waypoints.coordinates.reduce((prevString: string, coord: Position) => {
+        return prevString + `<wpt lat="${coord[1]}" lon="${coord[0]}"></wpt>\n`
+    }, '')
 
     if (rte) {
         xmlString += '<rte>\n'

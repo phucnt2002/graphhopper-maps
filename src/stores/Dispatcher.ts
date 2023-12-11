@@ -22,6 +22,7 @@ class Dispatcher {
             console.error("No calls to 'dispatch' allowed while another dispatch is ongoing.")
         }
         this.isDispatching = true
+        // debugger
         this.receivers.forEach(receiver => receiver.receive(action))
         this.isDispatching = false
     }

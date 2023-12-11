@@ -53,6 +53,7 @@ setStores({
     mapOptionsStore: new MapOptionsStore(),
     pathDetailsStore: new PathDetailsStore(),
     mapFeatureStore: new MapFeatureStore(),
+    // headingsStore:
 })
 
 setMap(createMap())
