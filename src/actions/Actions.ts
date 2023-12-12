@@ -94,6 +94,7 @@ export class SetCustomModelEnabled implements Action {
 export class SetHeadings implements Action {
     readonly headings: number[]
     constructor (headings: number[]){
+        console.log(this)
         this.headings = headings
     }
 }

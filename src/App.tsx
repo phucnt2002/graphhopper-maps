@@ -167,6 +167,9 @@ function LargeScreenLayout({ query, route, map, error, mapOptions, encodedValues
             query = { ...query, headings: newHeadings }
             console.log(query)
         }
+        if (query.headings[0] && query.headings[1]) {
+            Dispatcher.dispatch(new SetHeadings(query.headings))
+        }
     }
     return (
         <>
@@ -199,6 +202,7 @@ function LargeScreenLayout({ query, route, map, error, mapOptions, encodedValues
                             onChange={e => {
                                 handleHeadingChange(0, e.target.value)
                                 // Dispatcher.dispatch(new ClearRoute())
+                                // console.log(query.headings)
                                 // Dispatcher.dispatch(new SetHeadings(query.headings))
                             }}
                         />

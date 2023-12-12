@@ -113,7 +113,7 @@ export class ApiImpl implements Api {
 
     async route(args: RoutingArgs): Promise<RoutingResult> {
         const completeRequest = ApiImpl.createRequest(args)
-        debugger
+        // debugger
         const response = await fetch(this.getRoutingURLWithKey('route').toString(), {
             method: 'POST',
             mode: 'cors',

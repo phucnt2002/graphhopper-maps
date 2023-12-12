@@ -14,6 +14,7 @@ import {
     RouteRequestSuccess,
     SetCustomModel,
     SetCustomModelEnabled,
+    SetHeadings,
     SetPoint,
     SetQueryPoints,
     SetVehicleProfile,
@@ -119,7 +120,7 @@ export default class QueryStore extends Store<QueryStoreState> {
     }
 
     reduce(state: QueryStoreState, action: Action): QueryStoreState {
-        debugger
+        // debugger
         if (action instanceof InvalidatePoint) {
             const points = QueryStore.replacePoint(state.queryPoints, {
                 ...action.point,
@@ -287,6 +288,12 @@ export default class QueryStore extends Store<QueryStoreState> {
                 customModelEnabled: action.enabled,
             }
             return this.routeIfReady(newState, true)
+        }else if(action instanceof SetHeadings){
+            const newState: QueryStoreState = {
+                ...state,
+                headings: action.headings,
+            }
+            return this.routeIfReady(newState, true)
         }
         return state
     }
@@ -353,7 +360,7 @@ export default class QueryStore extends Store<QueryStoreState> {
                 )
                     requests.push(QueryStore.buildRouteRequest(state))
             }
-            debugger
+            // debugger
             return {
                 ...state,
                 currentRequest: { subRequests: this.send(requests, zoom) },
@@ -363,7 +370,7 @@ export default class QueryStore extends Store<QueryStoreState> {
     }
 
     private send(args: RoutingArgs[], zoom: boolean) {
-        debugger
+        // debugger
         const subRequests = args.map(arg => {
             return {
                 args: arg,
