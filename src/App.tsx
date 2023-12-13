@@ -155,19 +155,42 @@ interface LayoutProps {
 function LargeScreenLayout({ query, route, map, error, mapOptions, encodedValues, drawAreas }: LayoutProps) {
     const [showSidebar, setShowSidebar] = useState(true)
     const [showCustomModelBox, setShowCustomModelBox] = useState(false)
-    const handleHeadingChange = (index: number, value: string) => {
-        // Kiểm tra xem giá trị có phải là số hợp lệ không
-        const parsedValue = parseFloat(value)
-        if (!isNaN(parsedValue)) {
-            // Sao chép mảng headings để không làm thay đổi trực tiếp state
-            const newHeadings = [...query.headings]
-            newHeadings[index] = parsedValue
+    const [heading1, setHeading1] = useState('')
+    const [heading2, setHeading2] = useState('')
+    const areHeadingsValid = () => {
+        if (heading1 === '' || heading2 === '') return false
+        return true
+    }
+    // const handleHeadingChange = (index: number, value: string) => {
+    //     if (index === 0) {
+    //         // console.log(value)
+    //         setHeading1(value)
+    //         // console.log(heading1)
+    //     } else if (index === 1) {
+    //         // console.log(value)
+    //         setHeading2(value)
+    //     }
 
-            // Cập nhật state với mảng headings mới
+    //     if (areHeadingsValid()) {
+    //         // console.log('heading1' + heading1)
+    //         // console.log('heading2' + heading2)
+    //         const newHeadings = [parseFloat(heading1), parseFloat(heading2)]
+    //         query = { ...query, headings: newHeadings }
+    //         // console.log(query)
+    //         Dispatcher.dispatch(new SetHeadings(query.headings))
+    //     }
+    // }
+    const handleHeadingChange = () => {
+        if (areHeadingsValid()) {
+            // console.log('heading1' + heading1)
+            // console.log('heading2' + heading2)
+            const newHeadings = [parseFloat(heading1), parseFloat(heading2)]
             query = { ...query, headings: newHeadings }
-            console.log(query)
-        }
-        if (query.headings[0] && query.headings[1]) {
+            // console.log(query)
+            Dispatcher.dispatch(new SetHeadings(query.headings))
+        } else {
+            query = { ...query, headings: [] }
+
             Dispatcher.dispatch(new SetHeadings(query.headings))
         }
     }
@@ -199,22 +222,37 @@ function LargeScreenLayout({ query, route, map, error, mapOptions, encodedValues
                         <input
                             type="number"
                             placeholder="Heading 1"
+                            // onKeyPress={e => {
+                            //     if (e.key === 'Enter') {
+                            //         handleHeadingChange(0, e.currentTarget.value)
+                            //     }
+                            // }}
                             onChange={e => {
-                                handleHeadingChange(0, e.target.value)
-                                // Dispatcher.dispatch(new ClearRoute())
-                                // console.log(query.headings)
-                                // Dispatcher.dispatch(new SetHeadings(query.headings))
+                                setHeading1(e.currentTarget.value)
                             }}
                         />
                         <input
                             type="number"
                             placeholder="Heading 2"
+                            // onKeyPress={e => {
+                            //     if (e.key === 'Enter') {
+                            //         handleHeadingChange(1, e.currentTarget.value)
+                            //     }
+                            // }}
                             onChange={e => {
-                                handleHeadingChange(1, e.target.value)
-                                // Dispatcher.dispatch(new ClearRoute())
-                                // Dispatcher.dispatch(new SetHeadings(query.headings))
+                                setHeading2(e.currentTarget.value)
                             }}
                         />
+                        {!areHeadingsValid() && (
+                            <div style={{ color: 'red' }}>Headings must both have values or both be empty.</div>
+                        )}
+                        <button
+                            onClick={e => {
+                                handleHeadingChange()
+                            }}
+                        >
+                            Apply
+                        </button>
                         <div>{!error.isDismissed && <ErrorMessage error={error} />}</div>
                         <RoutingResults
                             info={route.routingResult.info}

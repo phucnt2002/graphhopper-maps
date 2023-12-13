@@ -209,6 +209,8 @@ export class ApiImpl implements Api {
             details: details,
             headings: args.headings
         }
+        request['ch.disable'] = true
+
         // debugger
         if (args.customModel) {
             request.custom_model = args.customModel
